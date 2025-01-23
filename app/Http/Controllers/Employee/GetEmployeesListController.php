@@ -18,7 +18,7 @@ class GetEmployeesListController extends Controller
             ->get();
 
         return Inertia::render('Employee/List', [
-            'addEmployeeRoute' => route('employees.create'),
+            'createEmployeeRoute' => route('employees.create'),
             'employees' => $employees->map(function (Employee $employee) {
                 return [
                     'id' => $employee->id,
