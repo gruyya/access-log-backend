@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('postal_code');
             $table->string('city');
-            $table->string('phone_number');
+            $table->string('phone_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
