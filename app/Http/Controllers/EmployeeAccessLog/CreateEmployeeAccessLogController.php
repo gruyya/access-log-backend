@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\EmployeeAccessLog;
 
+use App\Enums\BarcodeType;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\EmployeeAccessLog;
-use App\Models\EmployeeBarcode;
 use Illuminate\Validation\ValidationException;
 use App\Models\Gate;
-use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 
 class CreateEmployeeAccessLogController extends Controller
 {
@@ -16,12 +17,15 @@ class CreateEmployeeAccessLogController extends Controller
     {
     
         $validatedData = $request->validate([
-            'barcode' => 'required|exists:employee_barcodes,code'
+            'barcode' => ['required']
         ]);
 
-        $barcode = EmployeeBarcode::query()->withWhereHas('employee')->where('code', $validatedData['barcode'])->first();
+        $employee = Employee::query()
+            ->where('barcode_in', $validatedData['barcode'])
+            ->orWhere('barcode_out', $validatedData['barcode'])
+            ->first();
 
-        if(!$barcode->employee) {
+        if(!$employee) {
             throw ValidationException::withMessages([
                 'barcode' => ['The barcode is not assigned to any employee.'],
             ]);
@@ -31,9 +35,9 @@ class CreateEmployeeAccessLogController extends Controller
 
         EmployeeAccessLog::query()
             ->create([
-                'employee_id' => $barcode->employee->id,
+                'employee_id' => $employee->id,
                 'gate_id' => $gate?->id,
-                'barcode_id' => $barcode->id,
+                'barcode_type' => $validatedData['barcode'] === $employee->barcode_in ? BarcodeType::IN :BarcodeType::OUT,
             ]);
 
         return response()->json(['message' => 'Access log created successfully.'], 201);

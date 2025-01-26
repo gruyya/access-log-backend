@@ -9,9 +9,9 @@ use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class StoreEmployeeController extends Controller
+class UpdateEmployeeController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, Employee $employee)
     {
         $validatedData = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
@@ -29,18 +29,17 @@ class StoreEmployeeController extends Controller
             $path = $request->image->store('images');
         }
 
-        Employee::query()
-            ->create([
-                'first_name' => $validatedData['first_name'],
-                'middle_name' => $validatedData['middle_name'],
-                'last_name' => $validatedData['last_name'],
-                'image' => $path ?? null,
-                'jmbg' => $validatedData['jmbg'],
-                'barcode_in' => $validatedData['barcode_in'],
-                'barcode_out' => $validatedData['barcode_out'],
-                'rank' => $validatedData['rank'],
-                'unit_id' => $validatedData['unit_id'],
-            ]);
+        $employee->update([
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'image' => $path ?? null,
+            'jmbg' => $validatedData['jmbg'],
+            'barcode_in' => $validatedData['barcode_in'],
+            'barcode_out' => $validatedData['barcode_out'],
+            'rank' => $validatedData['rank'],
+            'unit_id' => $validatedData['unit_id'],
+        ]);
 
         return redirect()->route('employees.list');
     }
