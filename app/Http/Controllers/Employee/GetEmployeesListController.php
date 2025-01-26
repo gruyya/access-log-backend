@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class GetEmployeesListController extends Controller
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(): Response
     {
         $employees = Employee::query()
             ->with('unit')
-            ->with('employeeBarcodes')
             ->get();
 
         return Inertia::render('Employee/List', [
@@ -29,13 +27,8 @@ class GetEmployeesListController extends Controller
                     'image' => $employee->image,
                     'jmbg' => $employee->jmbg,
                     'rank' => $employee->rank,
-                    'employeeBarcodes' => $employee->employeeBarcodes->map(function ($barcode) {
-                        return [
-                            'id' => $barcode->id,
-                            'code' => $barcode->code,
-                            'type' => $barcode->type,
-                        ];
-                    }),
+                    'barcode_in' => $employee->barcode_in,
+                    'barcode_out' => $employee->barcode_out,
                 ];
             }),
         ]);

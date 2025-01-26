@@ -5,23 +5,23 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 
-const CreateEmployee = ({ ranks, units }) => {
+const UpdateEmployee = ({ employee, ranks, units }) => {
   const { data, setData, post, processing, errors, reset } = useForm({
-    first_name: '',
-    middle_name: '',
-    last_name: '',
-    image: '',
-    unit_id: '',
-    jmbg: '',
-    barcode_in: '',
-    barcode_out: '',
-    rank: '',
+    first_name: employee.first_name,
+    middle_name: employee.middle_name,
+    last_name: employee.last_name,
+    image: employee.image,
+    unit_id: employee.unit_id,
+    jmbg: employee.jmbg,
+    barcode_in: employee.barcode_in,
+    barcode_out: employee.barcode_out,
+    rank: employee.rank,
   });
 
   const submit = e => {
     e.preventDefault();
 
-    post(route('employees.store'), {
+    post(route('employees.update', employee.id), {
       onFinish: () => route('employees.list'),
     });
   };
@@ -30,7 +30,7 @@ const CreateEmployee = ({ ranks, units }) => {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Add Employee
+          Update Employee
         </h2>
       }
     >
@@ -80,12 +80,10 @@ const CreateEmployee = ({ ranks, units }) => {
                 autoComplete="last_name"
                 onChange={e => setData('last_name', e.target.value)}
               />
-
               <InputError message={errors.last_name} className="mt-2" />
             </div>
             <div className="mt-4">
               <InputLabel htmlFor="jmbg" value="JMBG" />
-
               <TextInput
                 id="jmbg"
                 type="text"
@@ -95,12 +93,10 @@ const CreateEmployee = ({ ranks, units }) => {
                 autoComplete="jmbg"
                 onChange={e => setData('jmbg', e.target.value)}
               />
-
               <InputError message={errors.jmbg} className="mt-2" />
             </div>
             <div className="mt-4">
               <InputLabel htmlFor="barcode_in" value="Barcode In" />
-
               <TextInput
                 id="barcode_in"
                 type="text"
@@ -113,7 +109,6 @@ const CreateEmployee = ({ ranks, units }) => {
 
               <InputError message={errors.barcode_in} className="mt-2" />
             </div>
-
             <div className="mt-4">
               <InputLabel htmlFor="barcode_out" value="Barcode Out" />
 
@@ -131,8 +126,41 @@ const CreateEmployee = ({ ranks, units }) => {
             </div>
 
             <div className="mt-4">
+              <InputLabel htmlFor="rank" value="Rank" />
+              <select
+                id="rank"
+                name="rank"
+                value={data.rank}
+                onChange={e => setData('rank', e.target.value)}
+                className="mt-1 block w-full"
+              >
+                {ranks.map(rank => (
+                  <option key={rank} value={rank}>
+                    {rank}
+                  </option>
+                ))}
+              </select>
+              <InputError message={errors.rank} className="mt-2" />
+            </div>
+            <div className="mt-4">
+              <InputLabel htmlFor="unit_id" value="Unit" />
+              <select
+                id="unit_id"
+                name="unit_id"
+                value={data.unit_id}
+                onChange={e => setData('unit_id', e.target.value)}
+                className="mt-1 block w-full"
+              >
+                {units.map(unit => (
+                  <option key={unit.id} value={unit.id}>
+                    {unit.name}
+                  </option>
+                ))}
+              </select>
+              <InputError message={errors.unit_id} className="mt-2" />
+            </div>
+            <div className="mt-4">
               <InputLabel htmlFor="image" value="Image" />
-
               <TextInput
                 id="image"
                 type="file"
@@ -142,66 +170,11 @@ const CreateEmployee = ({ ranks, units }) => {
                 autoComplete="image"
                 onChange={e => setData('image', e.target.value)}
               />
-
               <InputError message={errors.image} className="mt-2" />
-            </div>
-            <div className="mt-4">
-              <div>
-                <label
-                  htmlFor="unit_id"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Select unit
-                </label>
-                <div className="mt-2 grid grid-cols-1">
-                  <select
-                    id="unit_id"
-                    name="unit_id"
-                    defaultValue=""
-                    onChange={e => setData('unit_id', e.target.value)}
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  >
-                    <option value="">Select unit</option>
-                    {units.map(unit => (
-                      <option key={unit.id} value={unit.id}>
-                        {unit.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <InputError message={errors.unit_id} className="mt-2" />
-            </div>
-            <div className="mt-4">
-              <div>
-                <label
-                  htmlFor="rank"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Select rank
-                </label>
-                <div className="mt-2 grid grid-cols-1">
-                  <select
-                    id="rank"
-                    name="rank"
-                    defaultValue=""
-                    onChange={e => setData('rank', e.target.value)}
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  >
-                    <option value="">Select rank</option>
-                    {ranks.map(rank => (
-                      <option key={rank} value={rank}>
-                        {rank}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <InputError message={errors.rank} className="mt-2" />
             </div>
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Add Employee
+                Update Employee
               </PrimaryButton>
             </div>
           </form>
@@ -211,4 +184,4 @@ const CreateEmployee = ({ ranks, units }) => {
   );
 };
 
-export default CreateEmployee;
+export default UpdateEmployee;

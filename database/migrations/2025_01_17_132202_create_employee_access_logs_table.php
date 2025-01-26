@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('gate_id')->nullable();
-            $table->unsignedBigInteger('barcode_id');
+            $table->string('barcode_type');
             $table->timestamps();
             $table->softDeletes();
         });
