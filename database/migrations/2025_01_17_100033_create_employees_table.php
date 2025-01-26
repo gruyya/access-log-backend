@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
-            $table->string('image');
-            $table->string('jmbg')->unique();
+            $table->string('image')->nullable();
+            $table->string('jmbg')->unique();            
+            $table->string('barcode_in')->unique();
+            $table->string('barcode_out')->unique(); 
             $table->string('rank'); 
             $table->timestamps();
             $table->softDeletes();

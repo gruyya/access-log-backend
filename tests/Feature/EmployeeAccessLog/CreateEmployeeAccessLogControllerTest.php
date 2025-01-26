@@ -22,19 +22,15 @@ class CreateEmployeeAccessLogControllerTest extends TestCase
 
         CarbonImmutable::setTestNow(CarbonImmutable::parse('2025-01-01 08:00:00'));
 
-        $employee = Employee::factory()->createOne([
+        Employee::factory()->createOne([
             'id' => 143,
             'first_name' => 'John',
             'last_name' => 'Doe',
+            "barcode_in" => "1234567890",
+            "barcode_out" => "1235455"
         ]);
-        $employeeBarcode = EmployeeBarcode::factory()
-        ->for($employee)
-        ->createOne([
-            'id' => 1235454,
-            'code' => '1234567890',
-            'type' => BarcodeType::IN,
-        ]);
-        $gate = Gate::factory()->create([
+ 
+        Gate::factory()->create([
             'id' => 4545,
             'ip_address' => '127.0.0.1', 
             'name' => 'Gate 1'
@@ -42,7 +38,7 @@ class CreateEmployeeAccessLogControllerTest extends TestCase
 
         $response = $this
             ->post('/api/employee-access-logs', [
-                'barcode' => $employeeBarcode->code,
+                'barcode' =>"1234567890",
             ]);
 
         $response
@@ -53,7 +49,7 @@ class CreateEmployeeAccessLogControllerTest extends TestCase
 
         $this->assertEquals(143, $log->employee_id);
         $this->assertEquals(4545, $log->gate_id);
-        $this->assertEquals(1235454, $log->barcode_id);
+        $this->assertEquals(BarcodeType::IN, $log->barcode_type);
         $this->assertEquals('2025-01-01 08:00:00', $log->created_at->format('Y-m-d H:i:s'));
     }
 }

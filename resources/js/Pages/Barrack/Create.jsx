@@ -5,7 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 
-const CreateBarrack = ({ ranks, units }) => {
+const CreateBarrack = () => {
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     address: '',
@@ -16,9 +16,9 @@ const CreateBarrack = ({ ranks, units }) => {
 
   const submit = e => {
     e.preventDefault();
-    console.log(data);
+
     post(route('barracks.store'), {
-      onFinish: () => route('employees.list'),
+      onFinish: () => route('barracks.list'),
     });
   };
 
@@ -39,7 +39,7 @@ const CreateBarrack = ({ ranks, units }) => {
               <TextInput
                 id="name"
                 type="text"
-                name="first_namename"
+                name="name"
                 value={data.first_name}
                 className="mt-1 block w-full"
                 autoComplete="name"

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $id
  * @property int $employee_id
  * @property int|null $gate_id
- * @property int $barcode_id
+ * @property string $barcode_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
@@ -39,6 +39,10 @@ class EmployeeAccessLog extends Model
     protected $table = 'employee_access_logs';
     protected $guarded = [];
 
+    protected $casts = [
+        'barcode_type' => BarcodeType::class,
+    ];
+
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
@@ -47,10 +51,5 @@ class EmployeeAccessLog extends Model
     public function gate(): BelongsTo
     {
         return $this->belongsTo(Gate::class);
-    }
-
-    public function barcode(): BelongsTo
-    {
-        return $this->belongsTo(EmployeeBarcode::class);
     }
 }

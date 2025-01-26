@@ -90,25 +90,23 @@ export default function List({ employees, createEmployeeRoute }) {
                         {employee.jmbg}
                       </td>
                       <td className="px-3 py-4 text-sm text-gray-500">
-                        {employee.employeeBarcodes?.map(barcode => (
-                          <p
-                            key={barcode.id}
-                            className="items-center px-2.5 py-0.5 rounded-md text-xs font-medium mt-1 text-gray-800"
-                          >
-                            {barcode.code} - {barcode.type}
-                          </p>
-                        ))}
+                        <p className="items-center px-2.5 py-0.5 rounded-md text-xs font-medium mt-1 text-gray-800">
+                          {employee.barcode_in} - {'in'}
+                        </p>
+                        <p className="items-center px-2.5 py-0.5 rounded-md text-xs font-medium mt-1 text-gray-800">
+                          {employee.barcode_out} - {'out'}
+                        </p>
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                        <a
-                          href="#"
+                        <Link
+                          href={route('employees.edit', employee.id)}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           Edit
                           <span className="sr-only">
                             , {employee.first_name}
                           </span>
-                        </a>
+                        </Link>
                       </td>
                     </tr>
                   ))}

@@ -18,12 +18,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $last_name
  * @property string $image
  * @property string $jmbg
+ * @property string $barcode_in
+ * @property string $barcode_out
  * @property RankType $rank
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EmployeeAccessLog[] $employeeAccessLogs
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EmployeeBarcode[] $employeeBarcodes
  * @property-read Unit $unit
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Employee newQuery()
@@ -61,10 +62,5 @@ class Employee extends Model
     public function employeeAccessLogs(): HasMany
     {
         return $this->hasMany(EmployeeAccessLog::class);
-    }
-
-    public function employeeBarcodes(): HasMany
-    {
-        return $this->hasMany(EmployeeBarcode::class);
     }
 }
