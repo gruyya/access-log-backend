@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\EmployeeAccessLog;
+namespace App\Http\Controllers\Api\EmployeeAccessLog;
 
 use App\Enums\BarcodeType;
 use App\Http\Controllers\Controller;
@@ -10,13 +10,12 @@ use Illuminate\Http\Request;
 use App\Models\EmployeeAccessLog;
 use Illuminate\Validation\ValidationException;
 use App\Models\Gate;
-use Illuminate\Database\Eloquent\Builder;
 
 class CreateEmployeeAccessLogController extends Controller
 {
     public function __invoke(Request $request): EmployeeResource
     {
-    
+
         $validatedData = $request->validate([
             'barcode' => ['required']
         ]);
@@ -27,7 +26,7 @@ class CreateEmployeeAccessLogController extends Controller
             ->orWhere('barcode_out', $validatedData['barcode'])
             ->first();
 
-        if(!$employee) {
+        if (!$employee) {
             throw ValidationException::withMessages([
                 'barcode' => ['The barcode is not assigned to any employee.'],
             ]);
@@ -39,7 +38,7 @@ class CreateEmployeeAccessLogController extends Controller
             ->create([
                 'employee_id' => $employee->id,
                 'gate_id' => $gate?->id,
-                'barcode_type' => $validatedData['barcode'] === $employee->barcode_in ? BarcodeType::IN :BarcodeType::OUT,
+                'barcode_type' => $validatedData['barcode'] === $employee->barcode_in ? BarcodeType::IN : BarcodeType::OUT,
             ]);
 
         return new EmployeeResource($employee);
