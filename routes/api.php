@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LogoutController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmployeeAccessLog\CreateEmployeeAccessLogController;
+use App\Http\Controllers\Api\EmployeeAccessLog\CreateEmployeeAccessLogController;
 
+Route::post('/login', LoginController::class);
 
-    Route::post('/employee-access-logs', CreateEmployeeAccessLogController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/employee-access-log', CreateEmployeeAccessLogController::class);
+    Route::post('/logout', LogoutController::class);
+});
