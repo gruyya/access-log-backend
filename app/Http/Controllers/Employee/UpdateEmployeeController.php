@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Employee;
 use App\Enums\RankType;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
