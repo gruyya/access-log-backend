@@ -25,7 +25,7 @@ const UpdateGate = ({ barracks, gate }) => {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Add Gate
+          Izmeni podatke o ulazu/prijavnici
         </h2>
       }
     >
@@ -33,7 +33,7 @@ const UpdateGate = ({ barracks, gate }) => {
         <div className="mt-6 w-full h-full overflow-hidden items-center bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={submit}>
             <div>
-              <InputLabel htmlFor="name" value="Name" />
+              <InputLabel htmlFor="name" value="Naziv" />
 
               <TextInput
                 id="name"
@@ -54,7 +54,7 @@ const UpdateGate = ({ barracks, gate }) => {
                   htmlFor="barrack_id"
                   className="block text-sm/6 font-medium text-gray-900"
                 >
-                  Select barrack
+                  Izaberi kasarnu
                 </label>
                 <div className="mt-2 grid grid-cols-1">
                   <select
@@ -64,7 +64,6 @@ const UpdateGate = ({ barracks, gate }) => {
                     onChange={e => setData('barrack_id', e.target.value)}
                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   >
-                    <option value="">Select barrack</option>
                     {barracks.map(barrack => (
                       <option
                         key={barrack.id}
@@ -80,7 +79,7 @@ const UpdateGate = ({ barracks, gate }) => {
               <InputError message={errors.barrack_id} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="ip_address" value="Ip Address" />
+              <InputLabel htmlFor="ip_address" value="IP adresa" />
 
               <TextInput
                 id="ip_address"
@@ -96,7 +95,7 @@ const UpdateGate = ({ barracks, gate }) => {
               <InputError message={errors.ip_address} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="phone_number" value="Phone number" />
+              <InputLabel htmlFor="phone_number" value="Telefon" />
 
               <TextInput
                 id="phone_number"
@@ -114,7 +113,7 @@ const UpdateGate = ({ barracks, gate }) => {
 
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Update Gate
+                Potvrdi
               </PrimaryButton>
             </div>
           </form>

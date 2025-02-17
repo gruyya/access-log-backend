@@ -22,7 +22,7 @@ const CreateUnit = () => {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Add Unit
+          Dodaj jedinicu
         </h2>
       }
     >
@@ -30,7 +30,7 @@ const CreateUnit = () => {
         <div className="mt-6 w-full h-full overflow-hidden items-center bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={submit}>
             <div>
-              <InputLabel htmlFor="name" value="Name" />
+              <InputLabel htmlFor="name" value="Naziv" />
 
               <TextInput
                 id="name"
@@ -48,7 +48,7 @@ const CreateUnit = () => {
 
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Add Unit
+                Dodaj jedinicu
               </PrimaryButton>
             </div>
           </form>

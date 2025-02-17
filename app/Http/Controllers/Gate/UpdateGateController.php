@@ -15,7 +15,7 @@ class UpdateGateController extends Controller
         $validatedData = $request->validate([
             'barrack_id' => ['required', 'exists:barracks,id'],
             'name' => ['required', 'string', 'max:255'],
-            'ip_address' => ['required', 'string', 'max:255'],
+            'ip_address' => ['required', 'ipv4'],
             'phone_number' => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -26,6 +26,8 @@ class UpdateGateController extends Controller
             'phone_number' => $validatedData['phone_number'] ?? null,
         ]);
 
-        return redirect()->route('gates.list');
+        return redirect()->route('gates.list')->with('success', "
+            Podaci kapije {$gate->name} su uspešno ažurirani.
+        ");
     }
 }

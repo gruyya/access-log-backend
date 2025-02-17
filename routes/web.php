@@ -9,6 +9,7 @@ use App\Http\Controllers\Employee\GetEmployeesListController;
 use App\Http\Controllers\Employee\StoreEmployeeController;
 use App\Http\Controllers\Employee\UpdateEmployeeController;
 use App\Http\Controllers\Employee\EditEmployeeController;
+use App\Http\Controllers\Employee\GetEmployeeAccessLogController;
 use App\Http\Controllers\Gate\CreateGateController;
 use App\Http\Controllers\Gate\EditGateController;
 use App\Http\Controllers\Gate\GetGatesListController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', StoreEmployeeController::class)->name('employees.store');
         Route::get('/{employee}', EditEmployeeController::class)->name('employees.edit');
         Route::post('/{employee}', UpdateEmployeeController::class)->name('employees.update');
+        Route::get('/access-logs/{employee}', GetEmployeeAccessLogController::class)->name('employees.access-logs');
     });
 
     Route::prefix('barracks')->group(function () {

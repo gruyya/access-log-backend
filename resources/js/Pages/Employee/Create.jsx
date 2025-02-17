@@ -30,7 +30,7 @@ const CreateEmployee = ({ ranks, units }) => {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Add Employee
+          Dodaj zaposlenog
         </h2>
       }
     >
@@ -38,7 +38,7 @@ const CreateEmployee = ({ ranks, units }) => {
         <div className="mt-6 w-full h-full overflow-hidden items-center bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={submit}>
             <div>
-              <InputLabel htmlFor="first_name" value="First name" />
+              <InputLabel htmlFor="first_name" value="Ime" />
 
               <TextInput
                 id="first_name"
@@ -54,7 +54,7 @@ const CreateEmployee = ({ ranks, units }) => {
               <InputError message={errors.first_name} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="middle_name" value="Middle name" />
+              <InputLabel htmlFor="middle_name" value="Srednje ime" />
 
               <TextInput
                 id="middle_name"
@@ -69,7 +69,7 @@ const CreateEmployee = ({ ranks, units }) => {
               <InputError message={errors.middle_name} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="last_name" value="Last name" />
+              <InputLabel htmlFor="last_name" value="Prezime" />
 
               <TextInput
                 id="last_name"
@@ -99,7 +99,7 @@ const CreateEmployee = ({ ranks, units }) => {
               <InputError message={errors.jmbg} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="barcode_in" value="Barcode In" />
+              <InputLabel htmlFor="barcode_in" value="Barkod In" />
 
               <TextInput
                 id="barcode_in"
@@ -115,7 +115,7 @@ const CreateEmployee = ({ ranks, units }) => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="barcode_out" value="Barcode Out" />
+              <InputLabel htmlFor="barcode_out" value="Barkod Out" />
 
               <TextInput
                 id="barcode_out"
@@ -131,7 +131,7 @@ const CreateEmployee = ({ ranks, units }) => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="image" value="Image" />
+              <InputLabel htmlFor="image" value="Slika:" />
 
               <TextInput
                 id="image"
@@ -151,7 +151,7 @@ const CreateEmployee = ({ ranks, units }) => {
                   htmlFor="unit_id"
                   className="block text-sm/6 font-medium text-gray-900"
                 >
-                  Select unit
+                  Izaberi jedinicu
                 </label>
                 <div className="mt-2 grid grid-cols-1">
                   <select
@@ -161,7 +161,7 @@ const CreateEmployee = ({ ranks, units }) => {
                     onChange={e => setData('unit_id', e.target.value)}
                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   >
-                    <option value="">Select unit</option>
+                    <option value="">izaberi</option>
                     {units.map(unit => (
                       <option key={unit.id} value={unit.id}>
                         {unit.name}
@@ -178,7 +178,7 @@ const CreateEmployee = ({ ranks, units }) => {
                   htmlFor="rank"
                   className="block text-sm/6 font-medium text-gray-900"
                 >
-                  Select rank
+                  Izaberi čin
                 </label>
                 <div className="mt-2 grid grid-cols-1">
                   <select
@@ -188,7 +188,7 @@ const CreateEmployee = ({ ranks, units }) => {
                     onChange={e => setData('rank', e.target.value)}
                     className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                   >
-                    <option value="">Select rank</option>
+                    <option value="">izaberi</option>
                     {ranks.map(rank => (
                       <option key={rank} value={rank}>
                         {rank}
@@ -201,7 +201,7 @@ const CreateEmployee = ({ ranks, units }) => {
             </div>
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Add Employee
+                Dodaj zaposlenog
               </PrimaryButton>
             </div>
           </form>

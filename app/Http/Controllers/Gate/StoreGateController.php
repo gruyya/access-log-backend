@@ -16,7 +16,7 @@ class StoreGateController extends Controller
         $validatedData = $request->validate([
             'barrack_id' => ['required', Rule::exists('barracks', 'id')],
             'name' => ['required', 'string', 'max:255'],
-            'ip_address' => ['required', 'string', 'max:255'],
+            'ip_address' => ['required', 'ipv4'],
             'phone_number' => ['nullable', 'string', 'max:255'],
         ]);
 

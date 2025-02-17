@@ -17,9 +17,13 @@ class UpdateEmployeeController extends Controller
             'middle_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'image' => ['nullable'],
-            'jmbg' => ['required', 'string', 'max:13'],
-            'barcode_in' => ['required', 'string', 'max:255'],
-            'barcode_out' => ['required', 'string', 'max:255'],
+            'jmbg' => ['required', 'digits:13', Rule::unique('employees')->ignore($employee)],
+            'barcode_in' => ['required', 'digits:4', Rule::unique('employees')->ignore($employee)],
+            'barcode_out' => [
+                'required',
+                'digits:4',
+                Rule::unique('employees')->ignore($employee)
+            ],
             'rank' => ['required', 'string', Rule::enum(RankType::class)],
             'unit_id' => ['nullable', 'exists:units,id'],
         ]);
@@ -32,7 +36,7 @@ class UpdateEmployeeController extends Controller
             'first_name' => $validatedData['first_name'],
             'middle_name' => $validatedData['middle_name'],
             'last_name' => $validatedData['last_name'],
-            'image' => $path ?? null,
+            'image' => $employee->image,
             'jmbg' => $validatedData['jmbg'],
             'barcode_in' => $validatedData['barcode_in'],
             'barcode_out' => $validatedData['barcode_out'],
@@ -40,6 +44,8 @@ class UpdateEmployeeController extends Controller
             'unit_id' => $validatedData['unit_id'],
         ]);
 
-        return redirect()->route('employees.list');
+        return redirect()->route('employees.list')->with('success', "
+            Podaci zapolsenog {$employee->first_name} {$employee->last_name} su uspešno ažurirani.
+        ");
     }
 }

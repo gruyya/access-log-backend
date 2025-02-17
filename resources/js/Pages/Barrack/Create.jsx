@@ -26,7 +26,7 @@ const CreateBarrack = () => {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Add Barrack
+          Dodaj kasarnu
         </h2>
       }
     >
@@ -34,7 +34,7 @@ const CreateBarrack = () => {
         <div className="mt-6 w-full h-full overflow-hidden items-center bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={submit}>
             <div>
-              <InputLabel htmlFor="name" value="Name" />
+              <InputLabel htmlFor="name" value="Naziv" />
 
               <TextInput
                 id="name"
@@ -51,7 +51,7 @@ const CreateBarrack = () => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="address" value="Address" />
+              <InputLabel htmlFor="address" value="Adresa" />
 
               <TextInput
                 id="address"
@@ -67,7 +67,7 @@ const CreateBarrack = () => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="postal_code" value="Postal Code" />
+              <InputLabel htmlFor="postal_code" value="Postanski broj" />
 
               <TextInput
                 id="postal_code"
@@ -83,7 +83,7 @@ const CreateBarrack = () => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="city" value="City" />
+              <InputLabel htmlFor="city" value="Grad" />
 
               <TextInput
                 id="city"
@@ -99,7 +99,7 @@ const CreateBarrack = () => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="phone_number" value="Phone Number" />
+              <InputLabel htmlFor="phone_number" value="Telefon" />
 
               <TextInput
                 id="phone_number"
@@ -116,7 +116,7 @@ const CreateBarrack = () => {
 
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Add Barrack
+                Dodaj kasarnu
               </PrimaryButton>
             </div>
           </form>

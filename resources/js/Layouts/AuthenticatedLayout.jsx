@@ -1,12 +1,14 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
+import Notification from '@/Components/Notification';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
   const user = usePage().props.auth.user;
+  const flash = usePage().props.flash;
 
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
@@ -28,7 +30,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('dashboard')}
                   active={route().current('dashboard')}
                 >
-                  Dashboard
+                  IS PRISTUP
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -36,7 +38,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('employees.list')}
                   active={route().current('employees.list')}
                 >
-                  Employees
+                  Zaposleni
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -44,7 +46,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('barracks.list')}
                   active={route().current('barracks.list')}
                 >
-                  Barracks
+                  Kasarne
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -52,7 +54,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('units.list')}
                   active={route().current('units.list')}
                 >
-                  Units
+                  Jedinice
                 </NavLink>
               </div>
               <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -60,7 +62,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('gates.list')}
                   active={route().current('gates.list')}
                 >
-                  Gates
+                  Ulaz
                 </NavLink>
               </div>
             </div>
@@ -94,14 +96,14 @@ export default function AuthenticatedLayout({ header, children }) {
 
                   <Dropdown.Content>
                     <Dropdown.Link href={route('profile.edit')}>
-                      Profile
+                      profil korisnika
                     </Dropdown.Link>
                     <Dropdown.Link
                       href={route('logout')}
                       method="post"
                       as="button"
                     >
-                      Log Out
+                      Izloguj se
                     </Dropdown.Link>
                   </Dropdown.Content>
                 </Dropdown>
@@ -193,7 +195,12 @@ export default function AuthenticatedLayout({ header, children }) {
         </header>
       )}
 
-      <main>{children}</main>
+      <main>
+        {children}
+        {flash && flash.success && (
+          <Notification message={flash.success} type="success" />
+        )}
+      </main>
     </div>
   );
 }

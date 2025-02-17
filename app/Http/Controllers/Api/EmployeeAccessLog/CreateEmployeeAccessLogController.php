@@ -33,14 +33,15 @@ class CreateEmployeeAccessLogController extends Controller
         }
 
         $gate = Gate::query()->where('ip_address', $request->ip())->first();
+        $barcodeType = $validatedData['barcode'] === $employee->barcode_in ? BarcodeType::IN : BarcodeType::OUT;
 
         EmployeeAccessLog::query()
             ->create([
                 'employee_id' => $employee->id,
                 'gate_id' => $gate?->id,
-                'barcode_type' => $validatedData['barcode'] === $employee->barcode_in ? BarcodeType::IN : BarcodeType::OUT,
+                'barcode_type' => $barcodeType,
             ]);
 
-        return new EmployeeResource($employee);
+        return (new EmployeeResource($employee))->setBarcodeType($barcodeType);
     }
 }
