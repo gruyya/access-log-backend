@@ -38,7 +38,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
         <div className="mt-6 w-full h-full overflow-hidden items-center bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
           <form onSubmit={submit}>
             <div>
-              <InputLabel htmlFor="first_name" value="First name" />
+              <InputLabel htmlFor="first_name" value="Ime" />
 
               <TextInput
                 id="first_name"
@@ -54,7 +54,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               <InputError message={errors.first_name} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="middle_name" value="Middle name" />
+              <InputLabel htmlFor="middle_name" value="Srednje ime" />
 
               <TextInput
                 id="middle_name"
@@ -69,7 +69,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               <InputError message={errors.middle_name} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="last_name" value="Last name" />
+              <InputLabel htmlFor="last_name" value="Prezime" />
 
               <TextInput
                 id="last_name"
@@ -96,7 +96,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               <InputError message={errors.jmbg} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="barcode_in" value="Barcode In" />
+              <InputLabel htmlFor="barcode_in" value="Barkod In" />
               <TextInput
                 id="barcode_in"
                 type="text"
@@ -110,7 +110,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               <InputError message={errors.barcode_in} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="barcode_out" value="Barcode Out" />
+              <InputLabel htmlFor="barcode_out" value="Barkod Out" />
 
               <TextInput
                 id="barcode_out"
@@ -126,7 +126,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
             </div>
 
             <div className="mt-4">
-              <InputLabel htmlFor="rank" value="Rank" />
+              <InputLabel htmlFor="rank" value="Cin" />
               <select
                 id="rank"
                 name="rank"
@@ -143,7 +143,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               <InputError message={errors.rank} className="mt-2" />
             </div>
             <div className="mt-4">
-              <InputLabel htmlFor="unit_id" value="Unit" />
+              <InputLabel htmlFor="unit_id" value="Jedinica" />
               <select
                 id="unit_id"
                 name="unit_id"
@@ -159,7 +159,7 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
               </select>
               <InputError message={errors.unit_id} className="mt-2" />
             </div>
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <InputLabel htmlFor="image" value="Image" />
               <TextInput
                 id="image"
@@ -171,10 +171,10 @@ const UpdateEmployee = ({ employee, ranks, units }) => {
                 onChange={e => setData('image', e.target.value)}
               />
               <InputError message={errors.image} className="mt-2" />
-            </div>
+            </div> */}
             <div className="mt-4 flex items-center justify-end">
               <PrimaryButton className="ms-4" disabled={processing}>
-                Update Employee
+                Potvrdi
               </PrimaryButton>
             </div>
           </form>

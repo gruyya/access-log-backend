@@ -1,25 +1,30 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import React from 'react';
 
-export default function List({ gates, createGateRoute }) {
+export default function AccessLogList({ employee, logs }) {
   return (
     <AuthenticatedLayout>
-      <Head title="Barracks List" />
+      <Head title="Employee List" />
       <div className="px-4 sm:px-6 lg:px-8 mt-6">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h2 className="text-xl font-semibold leading-tight text-gray-800">
-              Lista Ulaza/prijavnica
-            </h2>
-          </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
-              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              <Link href={createGateRoute}>Dodaj ulaz</Link>
-            </button>
+            <h1 className="text-2xl font-semibold leading-tight text-gray-800 text-center">
+              Logovi pristupa
+            </h1>
+            <div className="flex items-center mt-8">
+              <div className="size-16 shrink-0">
+                <img
+                  alt=""
+                  src={employee.image}
+                  className="size-16 rounded-full"
+                />
+              </div>
+              <div className="ml-4">
+                <div className="mt-1 text-gray-500">{employee.rank}</div>
+                <div className="font-xl text-gray-900">{employee.name}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-8 flow-root bg-white shadow sm:rounded-lg">
@@ -32,50 +37,33 @@ export default function List({ gates, createGateRoute }) {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                     >
-                      Naziv
+                      Lokacija
                     </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                     >
-                      Kasarna
+                      Tip loga (ulaz/izlaz)
                     </th>
                     <th
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                     >
-                      IP Adresa
-                    </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
-                    >
-                      Telefon
+                      Vreme
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
-                  {gates.map(gate => (
-                    <tr key={gate.id} className="even:bg-gray-50">
+                  {logs.map(log => (
+                    <tr key={employee.id} className="even:bg-gray-50">
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {gate.name}
+                        {log.barrack_name} - {log.gate_name}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {gate.barrack.name}
+                        {log.barcode_type === 'in' ? 'Ulaz' : 'Izlaz'}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {gate.ip_address}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {gate.phone_number}
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                        <a
-                          href={route('gates.edit', gate.id)}
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Promeni
-                        </a>
+                        {log.created_at}
                       </td>
                     </tr>
                   ))}

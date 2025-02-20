@@ -18,9 +18,17 @@ class StoreEmployeeController extends Controller
             'middle_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'image' => ['nullable'],
-            'jmbg' => ['required', 'string', 'max:13'],
-            'barcode_in' => ['required', 'string', 'max:255'],
-            'barcode_out' => ['required', 'string', 'max:255'],
+            'jmbg' => ['required', 'unique:employees', 'digits:13'],
+            'barcode_in' => [
+                'required',
+                'unique:employees',
+                'digits:4'
+            ],
+            'barcode_out' => [
+                'required',
+                'unique:employees',
+                'digits:4'
+            ],
             'rank' => ['required', 'string', Rule::enum(RankType::class)],
             'unit_id' => ['nullable', 'exists:units,id'],
         ]);

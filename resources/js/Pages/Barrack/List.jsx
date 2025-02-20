@@ -10,7 +10,7 @@ export default function List({ barracks, createBarrackRoute }) {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h2 className="text-xl font-semibold leading-tight text-gray-800">
-              Barrack List
+              Kasarne
             </h2>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -18,7 +18,7 @@ export default function List({ barracks, createBarrackRoute }) {
               type="button"
               className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <Link href={createBarrackRoute}>Add Barrack</Link>
+              <Link href={createBarrackRoute}>Dodaj kasarnu</Link>
             </button>
           </div>
         </div>
@@ -32,19 +32,19 @@ export default function List({ barracks, createBarrackRoute }) {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                     >
-                      Name
+                      Naziv
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Address
+                      Adresa
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Phone Number
+                      Telefon
                     </th>
                     <th
                       scope="col"
@@ -78,7 +78,7 @@ export default function List({ barracks, createBarrackRoute }) {
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Edit
+                          Promeni
                         </a>
                       </td>
                     </tr>
