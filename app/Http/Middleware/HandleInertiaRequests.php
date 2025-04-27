@@ -35,8 +35,13 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'flash' => [
-                'success' => fn() => $request->session()->get('success')
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
             ],
+            'recaptcha' => [
+                'site_key' => config('services.recaptcha.key'),
+                'site_secret' => config('services.recaptcha.secret'),
+            ]
         ];
     }
 }

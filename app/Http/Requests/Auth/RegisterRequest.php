@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -9,8 +10,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
-class LoginRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +33,16 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'unique:users,email',
+                Rule::email()
+                    ->rfcCompliant(strict: false)
+                    ->validateMxRecord()
+                    ->preventSpoofing()
+            ],
+            'password' => ['required', 'confirmed', Password::defaults()],
             'capcha_token' => ['required', 'string'],
         ];
     }
@@ -39,7 +52,7 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function register(): void
     {
         $this->ensureIsNotRateLimited();
 
@@ -52,26 +65,30 @@ class LoginRequest extends FormRequest
 
 
         if (!$responseFromGoogleReCaptcha->json('success') || !$this->input('capcha_token')) {
-            RateLimiter::hit($this->throttleKey(), 120);
+            RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => "Invalid captcha",
             ]);
         }
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey(), 120);
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
 
         RateLimiter::clear($this->throttleKey());
     }
 
     /**
-     * Ensure the register request is not rate limited.
+     * Ensure the login request is not rate limited.
      *
      * @throws \Illuminate\Validation\ValidationException
      */

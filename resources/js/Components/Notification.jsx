@@ -3,7 +3,7 @@ import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
-export default function Notification({ message }) {
+export default function Notification({ message, type }) {
   const [show, setShow] = useState(true);
 
   return (
@@ -20,7 +20,9 @@ export default function Notification({ message }) {
                   <div className="shrink-0">
                     <CheckCircleIcon
                       aria-hidden="true"
-                      className="size-6 text-green-400"
+                      className={`size-6 ${
+                        type === 'success' ? 'text-green-400' : 'text-red-400'
+                      }`}
                     />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">

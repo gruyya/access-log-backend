@@ -200,6 +200,9 @@ export default function AuthenticatedLayout({ header, children }) {
         {flash && flash.success && (
           <Notification message={flash.success} type="success" />
         )}
+        {flash && flash.error && (
+          <Notification message={flash.error} type="error" />
+        )}
       </main>
     </div>
   );

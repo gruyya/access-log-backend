@@ -3,18 +3,28 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import useRecaptcha from '@/hooks/useRecaptcha';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function Login({ status, canResetPassword }) {
+  const recaptchaData = usePage().props.recaptcha;
+  const { capchaToken, recaptchaRef, handleRecaptcha } = useRecaptcha();
   const { data, setData, post, processing, errors, reset } = useForm({
     email: '',
     password: '',
     remember: false,
+    capcha_token: '',
   });
 
   const submit = e => {
     e.preventDefault();
+
+    if (!data.capcha_token) {
+      alert('Molimo vas da potvrdite da niste robot');
+      return;
+    }
 
     post(route('login'), {
       onFinish: () => reset('password'),
@@ -74,6 +84,17 @@ export default function Login({ status, canResetPassword }) {
           </label>
         </div>
 
+        <div className="mt-4 flex items-center w-full">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={recaptchaData.site_key}
+            onChange={token => {
+              setData('capcha_token', token);
+              handleRecaptcha(token);
+            }}
+          />
+        </div>
+
         <div className="mt-4 flex items-center justify-end">
           {canResetPassword && (
             <Link
@@ -84,7 +105,7 @@ export default function Login({ status, canResetPassword }) {
             </Link>
           )}
 
-          <PrimaryButton className="ms-4" disabled={processing}>
+          <PrimaryButton className="ms-4" disabled={processing || !capchaToken}>
             Uloguj se
           </PrimaryButton>
         </div>
