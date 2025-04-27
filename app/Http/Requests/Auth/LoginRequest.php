@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -43,21 +45,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $responseFromGoogleReCaptcha = Http::asForm()
-            ->post(config('services.recaptcha.site'), [
-                'secret' => config('services.recaptcha.secret'),
-                'response' => $this->input('capcha_token'),
-                'remoteip' => $this->ip(),
-            ]);
-
-
-        if (!$responseFromGoogleReCaptcha->json('success') || !$this->input('capcha_token')) {
-            RateLimiter::hit($this->throttleKey(), 120);
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
+        $this->reCaptchaCheck();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey(), 120);
@@ -68,6 +56,41 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+    }
+
+    public function apiAuthenticate(): \Laravel\Sanctum\NewAccessToken
+    {
+        $this->ensureIsNotRateLimited();
+
+        $this->reCaptchaCheck();
+
+        $user = User::where('email', $this->email)->first();
+
+        if (! $user || ! Hash::check($this->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        return $user->createToken('login');
+    }
+
+    public function reCaptchaCheck(): void
+    {
+        $responseFromGoogleReCaptcha = Http::asForm()
+            ->post(config('services.recaptcha.site'), [
+                'secret' => config('services.recaptcha.secret'),
+                'response' => $this->input('capcha_token'),
+                'remoteip' => $this->ip(),
+            ]);
+
+        if (!$responseFromGoogleReCaptcha->json('success') || !$this->input('capcha_token')) {
+            RateLimiter::hit($this->throttleKey(), 120);
+
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
     }
 
     /**
