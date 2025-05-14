@@ -31,7 +31,7 @@ class GenerateTrainingCSV extends Command
     public function handle()
     {
         $logs = DB::table('employee_access_logs')
-            ->select('employee_id', DB::raw('TIME(created_at) as time'), DB::raw('DAYOFWEEK(created_at)-1 as day_off_week'), 'created_at')
+            ->select('employee_id', DB::raw('TIME(created_at) as time'), DB::raw('DAYOFWEEK(created_at)-1 as dan_u_nedelji'), 'created_at')
             ->whereNull('deleted_at')
             ->orderBy('employee_id')
             ->orderBy('created_at')
@@ -54,30 +54,30 @@ class GenerateTrainingCSV extends Command
                 ? intval(array_sum($userStats[$log->employee_id]['times']) / count($userStats[$log->employee_id]['times']))
                 : $minutes;
 
-            $was_late_yesterday = $userStats[$log->employee_id]['last_late'];
-            $late = $minutes > 420 ? 1 : 0; // late ako je posle 07:00
+            $kasnio_juce = $userStats[$log->employee_id]['last_late'];
+            $kasni = $minutes > 420 ? 1 : 0; // late if after 07:00
 
             $data[] = [
                 'user_id' => $log->employee_id,
-                'day_off_week' => $log->day_off_week,
-                'average_entry_time' => $prosek,
-                'was_late_yesterday' => $was_late_yesterday,
-                'late' => $late
+                'dan_u_nedelji' => $log->dan_u_nedelji,
+                'prosek_ulazaka' => $prosek,
+                'kasnio_juce' => $kasnio_juce,
+                'kasni' => $kasni
             ];
 
             $userStats[$log->employee_id]['times'][] = $minutes;
-            $userStats[$log->employee_id]['last_late'] = $late;
+            $userStats[$log->employee_id]['last_late'] = $kasni;
         }
 
         $filename = storage_path('app/training_data.csv');
         $file = fopen($filename, 'w');
-        fputcsv($file, ['user_id', 'day_off_week', 'average_entry_time', 'was_late_yesterday', 'late']);
+        fputcsv($file, ['user_id', 'dan_u_nedelji', 'prosek_ulazaka', 'kasnio_juce', 'kasni']);
 
         foreach ($data as $row) {
             fputcsv($file, $row);
         }
 
         fclose($file);
-        $this->info('training_data.csv je generisan.');
+        $this->info('training_data.csv is generated.');
     }
 }
